@@ -92,13 +92,13 @@ function App() {
   
     data.split('').forEach((bit) => {
       if (bit === '1') {
-        signal.push({ x1: x, y1: high, x2: x + 10, y2: high }); // High half
-        signal.push({ x1: x + 10, y1: high, x2: x + 10, y2: low }); // Transition
-        signal.push({ x1: x + 10, y1: low, x2: x + 20, y2: low }); // Low half
+        signal.push({ x1: x, y1: high, x2: x + 10, y2: high });
+        signal.push({ x1: x + 10, y1: high, x2: x + 10, y2: low }); 
+        signal.push({ x1: x + 10, y1: low, x2: x + 20, y2: low });
       } else {
-        signal.push({ x1: x, y1: low, x2: x + 10, y2: low }); // Low half
-        signal.push({ x1: x + 10, y1: low, x2: x + 10, y2: high }); // Transition
-        signal.push({ x1: x + 10, y1: high, x2: x + 20, y2: high }); // High half
+        signal.push({ x1: x, y1: low, x2: x + 10, y2: low });
+        signal.push({ x1: x + 10, y1: low, x2: x + 10, y2: high });
+        signal.push({ x1: x + 10, y1: high, x2: x + 20, y2: high });
       }
       x += 20;
     });
@@ -115,13 +115,13 @@ function App() {
   
     data.split('').forEach((bit) => {
       if (bit === '0') {
-        previousLevel = previousLevel === low ? high : low; // Start transition for '0'
+        previousLevel = previousLevel === low ? high : low;
         signal.push({ x1: x, y1: previousLevel, x2: x + 10, y2: previousLevel });
-        previousLevel = previousLevel === low ? high : low; // Mid transition
+        previousLevel = previousLevel === low ? high : low; 
         signal.push({ x1: x + 10, y1: previousLevel, x2: x + 20, y2: previousLevel });
       } else {
-        signal.push({ x1: x, y1: previousLevel, x2: x + 10, y2: previousLevel }); // No start transition for '1'
-        previousLevel = previousLevel === low ? high : low; // Mid transition
+        signal.push({ x1: x, y1: previousLevel, x2: x + 10, y2: previousLevel });
+        previousLevel = previousLevel === low ? high : low;
         signal.push({ x1: x + 10, y1: previousLevel, x2: x + 20, y2: previousLevel });
       }
       x += 20;
@@ -191,7 +191,6 @@ const SignalDisplay = ({ signal }) => {
     const { x1, y1, x2, y2 } = signal[i];
     const { y1: nextY1 } = signal[i + 1];
     
-    // Draw a vertical line if necessary to connect the segments
     if (y2 !== nextY1) {
       lines.push(
         <line
@@ -206,7 +205,6 @@ const SignalDisplay = ({ signal }) => {
       );
     }
 
-    // Draw the horizontal line for the current segment
     lines.push(
       <line
         key={i}
@@ -220,7 +218,6 @@ const SignalDisplay = ({ signal }) => {
     );
   }
 
-  // Render the final segment
   const lastSegment = signal[signal.length - 1];
   lines.push(
     <line
