@@ -187,10 +187,12 @@ const SignalDisplay = ({ signal }) => {
   if (!signal) return null;
 
   const lines = [];
+  const divisions = [];
+
   for (let i = 0; i < signal.length - 1; i++) {
     const { x1, y1, x2, y2 } = signal[i];
     const { y1: nextY1 } = signal[i + 1];
-    
+
     if (y2 !== nextY1) {
       lines.push(
         <line
@@ -216,6 +218,19 @@ const SignalDisplay = ({ signal }) => {
         strokeWidth="2"
       />
     );
+
+    divisions.push(
+      <line
+        key={`division-${i}`}
+        x1={x1}
+        y1={0}
+        x2={x1}
+        y2={50}
+        stroke="#ddd"
+        strokeWidth="1"
+        strokeDasharray="4"
+      />
+    );
   }
 
   const lastSegment = signal[signal.length - 1];
@@ -231,12 +246,27 @@ const SignalDisplay = ({ signal }) => {
     />
   );
 
+  divisions.push(
+    <line
+      key={`division-end`}
+      x1={lastSegment.x2}
+      y1={0}
+      x2={lastSegment.x2}
+      y2={50}
+      stroke="#ddd"
+      strokeWidth="1"
+      strokeDasharray="4"
+    />
+  );
+
   return (
-    <svg width="200" height="50">
+    <svg width="220" height="50">
+      {divisions}
       {lines}
     </svg>
   );
 };
+
 
 
 export default App;
